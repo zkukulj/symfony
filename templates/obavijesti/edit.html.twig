@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Obavijesti{% endblock %}
+
+{% block body %}
+    <h1>Edit Obavijesti</h1>
+
+    {{ include('obavijesti/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('obavijesti_index') }}">back to list</a>
+
+    {{ include('obavijesti/_delete_form.html.twig') }}
+{% endblock %}

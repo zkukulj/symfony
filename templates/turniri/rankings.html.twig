@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'turniri_rankings' %}
+
+{% block main %}
+<style>
+    table,h1{    background: white;}
+</style>
+
+<h1>STCZ turniri rankings</h1>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Mjesto</th>
+            <th>Igrač</th>
+            <th>Bodova</th>
+            <th>Turnira</th>
+            <th>Efikasnost</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for igrac in rankings %}
+            <tr><td>{{ igrac.mjesto }}</td><td>{{ igrac.IGRAC }}</td><td>{{ igrac.POINTS }}</td><td>{{ igrac.tour_nr }}</td><td>{{ igrac.eff }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

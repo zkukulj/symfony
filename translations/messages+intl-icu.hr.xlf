@@ -57,7 +57,7 @@
             </trans-unit>
             <trans-unit id="title.homepage">
                 <source>title.homepage</source>
-                <target><![CDATA[Dobrodošli na <strong>Symfony Demo</strong> web aplikaciju]]></target>
+                <target><![CDATA[Demo Symfony aplikacija]]></target>
             </trans-unit>
             <trans-unit id="title.source_code">
                 <source>title.source_code</source>

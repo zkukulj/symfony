@@ -15,6 +15,7 @@ use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Security\PostVoter;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Ryan Weaver <weaverryan@gmail.com>
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-#[Route('/admin/post'), IsGranted('ROLE_ADMIN')]
+#[Route('/admin/turniri'), IsGranted('ROLE_ADMIN')]
 class BlogController extends AbstractController
 {
     /**
@@ -50,13 +51,29 @@ class BlogController extends AbstractController
      */
     #[
         Route('/', methods: ['GET'], name: 'admin_index'),
-        Route('/', methods: ['GET'], name: 'admin_post_index'),
+        Route('/', methods: ['GET'], name: 'admin_turniri_index'),
     ]
-    public function index(PostRepository $posts): Response
+    public function index(Connection $connection): Response
     {
-        $authorPosts = $posts->findBy(['author' => $this->getUser()], ['publishedAt' => 'DESC']);
+       // $authorPosts = $posts->findBy(['author' => $this->getUser()], ['publishedAt' => 'DESC']);
 
-        return $this->render('admin/blog/index.html.twig', ['posts' => $authorPosts]);
+       $sudionici=[];
+       $turniri = $connection->fetchAllAssociative('select turniri.ID,turniri.NAZIV,turniri.DAT__OD,
+       turnir_galerija.SLIKE FROM turniri 
+       LEFT OUTER JOIN turnir_galerija ON turniri.ID=turnir_galerija.TURNIRID WHERE turnir_galerija.SLIKE!="" ORDER BY turniri.DAT__OD desc');
+       foreach( $turniri as $tour => $key ){
+           $array = json_decode($key["SLIKE"], true);
+           $turniri[$tour]["SLIKE"] = $array[0]['name'];
+           // retrieve participants for each tour ID
+           $participants = $connection->fetchAllAssociative('select TURNIRID,IGRAC from turnir_sudionici where godkjen=0 and TURNIRID='.$key["ID"]);
+           array_push($sudionici,$participants);
+           $turniri[$tour]["igraci"] = $participants;
+       };
+       unset($array);
+
+           return $this->render('turniri/index.html.twig', [
+               'turniri' => $turniri,
+           ]);
     }
 
     /**
@@ -66,7 +83,7 @@ class BlogController extends AbstractController
      * to constraint the HTTP methods each controller responds to (by default
      * it responds to all methods).
      */
-    #[Route('/new', methods: ['GET', 'POST'], name: 'admin_post_new')]
+    #[Route('/new', methods: ['GET', 'POST'], name: 'admin_turniri_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $post = new Post();
@@ -93,13 +110,13 @@ class BlogController extends AbstractController
             $this->addFlash('success', 'post.created_successfully');
 
             if ($form->get('saveAndCreateNew')->isClicked()) {
-                return $this->redirectToRoute('admin_post_new');
+                return $this->redirectToRoute('admin_turniri_new');
             }
 
-            return $this->redirectToRoute('admin_post_index');
+            return $this->redirectToRoute('admin_turniri_index');
         }
 
-        return $this->render('admin/blog/new.html.twig', [
+        return $this->render('admin/turniri/new.html.twig', [
             'post' => $post,
             'form' => $form->createView(),
         ]);

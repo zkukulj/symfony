@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{# templates/turniri/index.html.twig #}
+
+
+{% block main %}
+
+    {% for post in turniri %}
+    <div class="well">
+        <article class="post">
+            <h2>
+                <a href="{{ path('turniri_post', {slug: post.ID}) }}">
+                    {{ post.NAZIV }}
+                </a>
+            </h2>
+            
+            <div style="position:relative;float:right;" class="imgbox">
+                <img class="img-responsive" src="../{{ post.SLIKE }}" alt="Turnir finale" width="200" height="145"> 
+            </div>
+            
+
+            <p class="post-metadata">
+                <span class="metadata"><i class="fa fa-calendar"></i> {{ post.DAT__OD|format_datetime('long', 'medium', '', 'UTC') }}</span>
+            </p>
+            <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse{{ post.ID }}">Turnir igrači</a>
+                </h4>
+                </div>
+                <div id="collapse{{ post.ID }}" class="panel-collapse collapse">
+                <div class="panel-body">
+                {% for igrac in post.igraci %}
+                    <div>{{ igrac.IGRAC }}</div>
+                {% endfor %}
+                </div>
+                </div>
+            </div>
+            </div>
+        </article>
+    </div>
+    {% else %}
+        <div class="well"></div>
+    {% endfor %}
+{% endblock %}

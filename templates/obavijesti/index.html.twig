@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Obavijesti{% endblock %}
+
+{% block body %}
+    <h1>Obavijesti</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-default" href="{{ path('obavijesti_new') }}">Create new</a>
+    {% endif %}
+    <table class="table table-bordered table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Naziv</th>
+                <th>Status</th>
+                <th>Lokacija</th>
+                <th>DatOd</th>
+                <th>DatDo</th>
+                <th>Chtime</th>
+                <th>SentNewsletter</th>
+                <th>Odobreno</th>
+                <th>Turnirid</th>
+                {% if is_granted('ROLE_ADMIN') %}<th>actions</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for obavijesti in obavijestis %}
+            <tr>
+                <td>{{ obavijesti.id }}</td>
+                <td>{{ obavijesti.naziv }}</td>
+                <td>{{ obavijesti.status }}</td>
+                <td>{{ obavijesti.lokacija }}</td>
+                <td>{{ obavijesti.datOd ? obavijesti.datOd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ obavijesti.datDo ? obavijesti.datDo|date('Y-m-d') : '' }}</td>
+                <td>{{ obavijesti.chtime ? obavijesti.chtime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ obavijesti.sentNewsletter ? 'Yes' : 'No' }}</td>
+                <td>{{ obavijesti.odobreno ? 'Yes' : 'No' }}</td>
+                <td>{{ obavijesti.turnirid }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a class="btn btn-default btn-sm btn-block" href="{{ path('obavijesti_show', {'id': obavijesti.id}) }}">show</a>
+                    <a class="btn btn-default btn-sm btn-block" href="{{ path('obavijesti_edit', {'id': obavijesti.id}) }}">edit</a>
+                </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-default" href="{{ path('obavijesti_new') }}">Create new</a>
+    {% endif %}
+{% endblock %}

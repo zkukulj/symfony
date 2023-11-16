@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'turniri_post_show' %}
+
+{% block main %}
+<style>
+    .input-sm{ padding: 1px 1px;}
+</style>
+{% for post in turniri %}
+
+    <h1>{{ post.NAZIV }}</h1>
+
+    <p class="post-metadata">
+        <span class="metadata"><i class="fa fa-calendar"></i> {{ post.DAT__OD|format_datetime('long', 'medium', '', 'UTC') }}</span>
+        <span><button class="btn btn-xs btn-default" id="goback">Povratak</button></span>
+    </p>
+
+    {{ post.tour_content|raw }}
+
+        <script type="text/javascript">
+            var foo='{{ post.LOKACIJA|raw }}';
+
+            var obj = JSON.parse(foo);
+
+            Object.keys(obj).forEach(function(key) {
+                //console.log(obj[key].eid+"   "+obj[key].val);
+                $("#"+obj[key].eid).val(obj[key].val);
+            });
+            $("[data-toggle='tab']").click(function(){
+                var href=$(this).attr("href");
+                console.log(href );
+                $(".tab-content").find(".tab-pane.active").removeClass("active").removeClass("in");
+                $(href).addClass("active").addClass("in");
+            });
+            $("#goback").click(function(){
+                history.back();
+            });
+        </script>
+
+
+    {% else %}
+        <div class="well"></div>
+    {% endfor %}
+{% endblock %}

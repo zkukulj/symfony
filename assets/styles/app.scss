@@ -61,7 +61,10 @@ i {
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh
+  min-height: 100vh;
+  background: url(images/ttbody.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 header {

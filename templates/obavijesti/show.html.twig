@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Obavijesti{% endblock %}
+
+{% block body %}
+    <h1>Obavijesti</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ obavijesti.id }}</td>
+            </tr>
+            <tr>
+                <th>Klientnr</th>
+                <td>{{ obavijesti.klientnr }}</td>
+            </tr>
+            <tr>
+                <th>Korisnici</th>
+                <td>{{ obavijesti.korisnici }}</td>
+            </tr>
+            <tr>
+                <th>Naziv</th>
+                <td>{{ obavijesti.naziv }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ obavijesti.status }}</td>
+            </tr>
+            <tr>
+                <th>Lokacija</th>
+                <td>{{ obavijesti.lokacija }}</td>
+            </tr>
+            <tr>
+                <th>DatOd</th>
+                <td>{{ obavijesti.datOd ? obavijesti.datOd|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DatDo</th>
+                <td>{{ obavijesti.datDo ? obavijesti.datDo|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Chtime</th>
+                <td>{{ obavijesti.chtime ? obavijesti.chtime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>SentNewsletter</th>
+                <td>{{ obavijesti.sentNewsletter ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Ordretotalinkl</th>
+                <td>{{ obavijesti.ordretotalinkl }}</td>
+            </tr>
+            <tr>
+                <th>Odobreno</th>
+                <td>{{ obavijesti.odobreno ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>OdgOsoba</th>
+                <td>{{ obavijesti.odgOsoba }}</td>
+            </tr>
+            <tr>
+                <th>Opis</th>
+                <td>{{ obavijesti.opis }}</td>
+            </tr>
+            <tr>
+                <th>OpisNl</th>
+                <td>{{ obavijesti.opisNl }}</td>
+            </tr>
+            <tr>
+                <th>Turnirid</th>
+                <td>{{ obavijesti.turnirid }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('obavijesti_index') }}">back to list</a>
+
+    <a href="{{ path('obavijesti_edit', {'id': obavijesti.id}) }}">edit</a>
+
+    {{ include('obavijesti/_delete_form.html.twig') }}
+{% endblock %}

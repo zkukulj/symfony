@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Obavijesti{% endblock %}
+
+{% block body %}
+    <h1>Create new Obavijesti</h1>
+
+    {{ include('obavijesti/_form.html.twig') }}
+
+    <a href="{{ path('obavijesti_index') }}">back to list</a>
+{% endblock %}
